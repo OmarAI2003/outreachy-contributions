@@ -1,19 +1,31 @@
-# Outreachy contribution period
+## Dataset: [Chemically-induced Skin Reactions](https://tdcommons.ai/single_pred_tasks/tox#skin-reaction)
 
-This repository contains a basic folder structure to be used during the Outreachy contribution period. Please make a fork to start contributing, and detail progress in the open issue. 
-
-## Project goals:
-- Understand how to use and interact with the Ersilia Model Hub
-- Demonstrate basic AI/ML knowledge
-- Show your Python coding skills 
-- Practice code documentation and end user documentation
+### Dataset Overview
+The data endpoint is to identify skin sensitizers => substances that can cause allergic [contact dermatitis (ACD)](https://ntp.niehs.nih.gov/whatwestudy/niceatm/test-method-evaluations/skin-sens) in humans through an immune response triggered by attatching chemicals to [skin proteins](https://ntp.niehs.nih.gov/whatwestudy/niceatm/test-method-evaluations/skin-sens/easa/easa) resulting from repeated exposure in susceptible individuals. The dataset is set for binary **classification** tasks, where each drug is represented by its SMILES string and labeled as either causing a skin reaction (1) or not (0). Allergic skin reactions can appear in the form of redness, swelling, or itching in humans. The data collected results from tests to facilitate the evaluation of alternative methods to predict reactions without using humans or animals.
 
 
-## Structure overview
-The template repository already has pre-defined folders. Please restrict your project to using them for easy review:
-- data: folder where data needs to be stored once downloade
-- notebooks: jupyter notebooks
-- scripts: python/bash scripts necessary to run the project
-- models: folder with model checkpoints
+### Data Source
+Data was collected from non-animal defined approaches (DAs). Chemica tests like ([DPRA](https://ntp.niehs.nih.gov/whatwestudy/niceatm/test-method-evaluations/skin-sens/da)))=> measures how chemicals bind to skin proteins. Tests for skin cells that checks if chemicals trigger inflammation signals in human skin cells like [KeratinoSens](https://ntp.niehs.nih.gov/whatwestudy/niceatm/test-method-evaluations/skin-sens/da). Immune cells test [h-CLAT](https://ntp.niehs.nih.gov/whatwestudy/niceatm/test-method-evaluations/skin-sens/da) that detects chemicals that activate allergy-related immune cells. Then tests were grouped to a  workflow (OECD guidelines) and their results were:
 
-Please modify this README to write your project documentation.
+- Compared to **past human skin data** ([HPPT](https://ntp.niehs.nih.gov/whatwestudy/niceatm/test-method-evaluations/skin-sens/hppt)) and **animal test data** ([LLNA](https://ntp.niehs.nih.gov/whatwestudy/niceatm/test-method-evaluations/skin-sens/llna)) to confirm accuracy.  
+
+-  Combined using **agreed-upon rules** (from [multi-lab studies](https://www.sciencedirect.com/science/article/abs/pii/S0041008X14004529)) to create final labels (1=allergen, 0=nott allergen).  
+
+### Dataset Size: 
+- 404 drugs in the form of SMILES strings.
+
+### Dataset Split method (may get changed in Hyperparameter Tuning): 
+Scaffold groups compounds by core structure, ensuring the model is evaluated distinct chemicals. I also used it For consistency with domain best practices,
+
+### Data Limitations:
+1) Data Size (404 compounds):
+    - Predictions are as good as the training data. Small dataset may miss chemical diversity, leading to poor predictions for structurally distinct compounds.
+2)  [Applicability Domain (AD):](https://www.sciencedirect.com/topics/pharmacology-toxicology-and-pharmaceutical-science/applicability-domain)
+    - Models trained on this data may fail for molecules  with structures too different from the training data (e.g., new types of atoms/bonds), requiring AD checks("warning" to spot nonsimilar cases) to flag unreliable predictions.
+### Dataset License: 
+- [CC BY 4.0.](https://creativecommons.org/licenses/by/4.0/)
+
+#### Concepts & Abbreviations:
+- **susceptible individuals:** Refer to those who are genetically or biologically predisposed to developing allergic reactions upon repeated exposure to chemical agents
+
+- **Applicability Domain (AD)**: Chemical space where the model's predictions are reliable. Domain is determined by Model descriptors and responses.

@@ -29,3 +29,7 @@ Scaffold groups compounds by core structure, ensuring the model is evaluated dis
 - **susceptible individuals:** Refer to those who are genetically or biologically predisposed to developing allergic reactions upon repeated exposure to chemical agents
 
 - **Applicability Domain (AD)**: Chemical space where the model's predictions are reliable. Domain is determined by Model descriptors and responses.
+
+### **Why This Dataset?**
+I chosed this dataset because it connects to everyday life. Think of reactions to cosmetics, detergents, or skincare products. Skin issues are universal. This dataset helps predict chemical safety without relying heavily on animal testing, aligning with my interest in ethical alternatives. It’s also a classifier (safe vs. unsafe) and the models built from it could be easier to interpret. The size dataset is manageable for my computational setup. By working on this, I’m tackling a real-world problem that blends health, consumer products, and sustainability which feels both meaningful.
+__________________

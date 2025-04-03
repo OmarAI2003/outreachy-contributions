@@ -1,7 +1,8 @@
 ## Table of Contents
 - [Dataset](#dataset-chemically-induced-skin-reactions)
 - [Exploratory Data Analysis (EDA)](exploratory-data-analysis-(eda))
-- [Selecting Featurisers](Featurizer-Selection)
+- [Selecting Featurisers](featurizer-selection)
+- [Featurisation Instructions](featurisation-instructions)
 
 
 ## Dataset: [Chemically-induced Skin Reactions](https://tdcommons.ai/single_pred_tasks/tox#skin-reaction)

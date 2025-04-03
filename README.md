@@ -1,3 +1,9 @@
+## Table of Contents
+- [Dataset](#dataset-chemically-induced-skin-reactions)
+- [Exploratory Data Analysis (EDA)](exploratory-data-analysis-(eda))
+- [Selecting Featurisers](Featurizer-Selection)
+
+
 ## Dataset: [Chemically-induced Skin Reactions](https://tdcommons.ai/single_pred_tasks/tox#skin-reaction)
 
 ### Dataset Overview
@@ -35,7 +41,7 @@ I used 80/10/10 split to allocate more data for the training set thus giving eno
 I chosed this dataset because it connects to everyday life. Think of reactions to cosmetics, detergents, or skincare products. Skin issues are universal. This dataset helps predict chemical safety without relying heavily on animal testing, aligning with my interest in ethical alternatives. It’s also a classifier (safe vs. unsafe) and the models built from it could be easier to interpret. The size dataset is manageable for my computational setup. By working on this, I’m tackling a real-world problem that blends health, consumer products, and sustainability which feels both meaningful.
 __________________
 
-## EDA
+## Exploratory Data Analysis (EDA)
 
 Although direct analysis on raw SMILES strings is hard. I did some EDA to prepare for featurization and to identify issues or biases in the data that could impact model performance.
 

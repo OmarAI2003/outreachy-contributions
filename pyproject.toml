@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=64.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dummy_pkg"  # Arbitrary name
+version = "0.0.1"   # Required field
+
+[tool.setuptools]
+packages = []  # Explicitly no packages
+
+# Your existing tools
+[tool.ruff]
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+ignore = ["E501"]
+fixable = ["I"]
+unfixable = []
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10
+
+[tool.isort]
+line_length = 88

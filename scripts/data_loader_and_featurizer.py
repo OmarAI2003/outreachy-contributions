@@ -1,6 +1,4 @@
 # Import necessary libraries.
-
-import os
 from pathlib import Path
 from typing import List
 
@@ -33,8 +31,8 @@ datasets = {"train": train_df, "valid": valid_df, "test": test_df}
 
 # Loop through datasets and save input and label to separate CSV files.
 for name, df in datasets.items():
-    df[["Drug_ID", "Drug"]].to_csv(
-        data_path / f"{name}_features.csv", index=False, header=False
+    df[["Drug", "Drug_ID"]].rename(columns={"Drug": "smiles"}).to_csv(
+        data_path / f"{name}_features.csv", index=False
     )
     df[["Y"]].to_csv(data_path / f"{name}_labels.csv", index=False)
 
@@ -43,9 +41,10 @@ df = pd.read_csv(data_path / "skin_reaction.tab", delimiter="\t")
 # saving the data to a csv file making it ready for the model.
 df.to_csv(data_path / "skin_reaction.csv", index=False)
 
-# Delete unnecessary files after splitting data.
-for file in ["skin_reaction.tab"]:
-    os.remove(os.path.join(data_path, file))
+
+# # Delete unnecessary files after splitting data.
+# for file in ["skin_reaction.tab"]:
+#     os.remove(os.path.join(data_path, file))
 
 
 def run_featurizer(

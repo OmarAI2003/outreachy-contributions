@@ -469,7 +469,7 @@ Strengths of Random Forest:
 
     ![Random Forest Confusion Matrix](images/RF_mtx.png)
 
-    - **Strong specificity**: Correctly predicted **21 sensitizers** (true positives, class `0`), but missed **6** (false positives).
+    - **Strong specificity**: Correctly predicted **22 sensitizers** (true positives, class `0`), but missed **6** (false positives).
     - **High recall for non-sensitizers**: Captured **10 true negatives** (class `0`), with only **4 false negatives**, aligning with the high recall (84%) observed earlier.
     - **Precision trade-off**: While recall is robust, the **6 false positives** (class `0` predicted as `1`) explain the precision score of 77.
 

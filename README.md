@@ -1,18 +1,21 @@
 ## Contents
+- [Project Structure](#project-structure)
+- [Installation](#installation)
+- [Environment Setup](#environment-setup)
 - [Dataset](#dataset-chemically-induced-skin-reactions)
 - [Exploratory Data Analysis](#exploratory-data-analysis-eda)
 - [Selecting Featurisers](#featurizer-selection)
 - [Featurisation Instructions](#featurisation-instructions)
 - [Data Modeling](#data-modeling)
-- [Evaluating RF Top Performing Model](#evaluating-rf-top-performing-model)
+- [Evaluating RF Top Performing Model](#evaluating-rf-top-performing-model) 🏅
 - [Saving Models](#saving-models)
 - [Running a Model Prediction](#running-a-model-prediction)
-- [Project Structure](#project-structure)
+
 
 
 ## Dataset: [Chemically-induced Skin Reactions](https://tdcommons.ai/single_pred_tasks/tox#skin-reaction)
 
-### Dataset Overview
+### Dataset Overview [`⇧`](#contents)
 The data endpoint is to identify skin sensitizers => substances that can cause allergic [contact dermatitis (ACD)](https://ntp.niehs.nih.gov/whatwestudy/niceatm/test-method-evaluations/skin-sens) in humans through an immune response triggered by attaching chemicals to [skin proteins](https://ntp.niehs.nih.gov/whatwestudy/niceatm/test-method-evaluations/skin-sens/easa/easa) resulting from repeated exposure in susceptible individuals. The dataset is set for binary **classification** tasks, where each drug is represented by its SMILES string and labeled as either causing a skin reaction (1) or not (0). Allergic skin reactions can appear in the form of redness, swelling, or itching in humans. The data collected results from tests to facilitate the evaluation of alternative methods to predict reactions without using humans or animals.
 
 
@@ -47,7 +50,7 @@ I used 80/10/10 split to allocate more data for the training set thus giving eno
 I chosed this dataset because it connects to everyday life. Think of reactions to cosmetics, detergents, or skincare products. Skin issues are universal. This dataset helps predict chemical safety without relying heavily on animal testing, aligning with my interest in ethical alternatives. It’s also a classifier (safe vs. unsafe) and the models built from it could be easier to interpret. The size dataset is manageable for my computational setup. By working on this, I’m tackling a real-world problem that blends health, consumer products, and sustainability which feels both meaningful.
 __________________
 
-## Exploratory Data Analysis (EDA)
+## Exploratory Data Analysis (EDA) [`⇧`](#contents)
 
 Although direct analysis on raw SMILES strings is hard. I did some EDA to prepare for featurization and to identify issues or biases in the data that could impact model performance.
 
@@ -55,11 +58,11 @@ Although direct analysis on raw SMILES strings is hard. I did some EDA to prepar
 
 Initial exploration to understand the dataset's basic structure & content.
 
-### 1. Dataset Dimensions
+### 1. Dataset Dimensions [`⇧`](#contents)
 
 The dataset has **404 entries (rows)**, each representing a unique chemical compound, and **3 features (columns)**.
 
-### 2. Data Columns and Types:
+### 2. Data Columns and Types: [`⇧`](#contents)
 
 A summary of the dataset columns, their data types, and non-null counts is provided below:
 
@@ -74,7 +77,7 @@ A summary of the dataset columns, their data types, and non-null counts is provi
 * Analysis confirms that there are **no missing (null) values** in all 404 entries. This indicates good data and simplifies the initial preprocessing steps. no imputation is needed for missing values.
 
 ________________________
-### 3. Data Uniqueness
+### 3. Data Uniqueness [`⇧`](#contents)
 
 I checked the uniquenes of data values for each column to assure no duplicates.
 
@@ -90,7 +93,7 @@ I checked the uniquenes of data values for each column to assure no duplicates.
 * predictor variable `Y` has 2 unique values consistent with the **binary classification**.
 ____________________________________________
 
-### 4. Class Distribution (Target Variable Balance)
+### 4. Class Distribution (Target Variable Balance) [`⇧`](#contents)
 
 The `Y` target variable's distribution , tells if a chemical causes a skin reaction.I checked it to see if it has imbalance.
 
@@ -110,7 +113,7 @@ The class distribution is visualized in the bar plot below:
 **Key Finding:** There's a **class imbalance**. The positive class (1, Sensitizers) got more than twice as many samples (274) as the negative class (0, Non-sensitizers) (130). This imbalance (ratio ≈ 2.1:1) is significant and needs to be considered during modeling. Training a model on this data without accounting for imbalance can lead to a bias towards predicting the majority class (Sensitizers). I will try some resampling (SMOTE, over/under-sampling) or class weights during training. Evaluation metrics sensitive to imbalance, like the F1-score or Precision-Recall AUC.
 _________________________
 
-### 5. SMILES String Length Analysis
+### 5. SMILES String Length Analysis [`⇧`](#contents)
 
 To get an idea of molecular size and complexity, I analyzed the length of SMILES strings in `Drug` column.
 
@@ -141,7 +144,7 @@ Histogram with summry stats to show length distribution:
 **Key Finding:** Data has lots of small-to-medium-sized molecules but also includes a number of larger, maybe more complex structures. our Data is considerd hetrognieous.
 _________________________________________________________
 
-### Featurizer Selection
+### Featurizer Selection [`⇧`](#contents)
 
 
 Starting my search journey,
@@ -166,7 +169,7 @@ Those two selected featureizers work together to surpass challenges revealed by 
 
 Together, these approaches offer a balanced view: the embeddings bring in a holistic, data-enriched perspective while Morgan Fingerprints guarantee the capture of fine-grained chemical details. This strategy is designed to achieve model generalization accuracy, addressing the limitations and biases identified during EDA.
 ____________
-### Featurisation Instructions:
+### Featurisation Instructions: [`⇧`](#contents)
 
 The [`data_loader_and_featurizer.py`](scripts/data_loader_and_featurizer.py) takes your chemical data, splits it into meaningful subsets model-ready, and generates featurised[`data files`](data/) to capture molecular information. Here’s how it works:
 
@@ -178,14 +181,14 @@ The [`data_loader_and_featurizer.py`](scripts/data_loader_and_featurizer.py) tak
 
 Users need to run the [`data_loader and featurizer`](scripts/data_loader_and_featurizer.py) script to laod raw data from [TDC](https://tdcommons.ai/single_pred_tasks/tox#skin-reaction) then run the featurisation function within notebook by giving it a **fetched** model and file names.
 
-## Data Wrangling
+## Data Wrangling [`⇧`](#contents)
 Generally, I didn't do any data wrangling because, clearly, the data was already clean and ready for AI models.
 
 I experimented with various data scalers (`StandardScaler`, `RobustScaler`, `MinMaxScaler`) on the continuous compound embedding features to improve model performance. However, these transformations led to adverse outcomes, so I proceeded without scaling.
 
 I also refrained from using under/over sampling techniques as it will exclude some of our data points that of course could convey some valuable informating to our models and decided to instead do hyperparameter tuning techniques like GridSearchCV to tune model parameters and improve generalization.
 
-# Data Modeling
+# Data Modeling [`⇧`](#contents)
 - I've modeled my data with **four** models (actually three):
 
     1. A **Baseline Model** => Dummy Classifier that makes predictions based on class distribution.
@@ -206,7 +209,7 @@ I also refrained from using under/over sampling techniques as it will exclude so
     3) **Recall** (minimizing false negatives)
     4) **F1-Score** (harmonic mean of precision and recall)
     5) **ROC-AUC** (model’s ranking capability across thresholds)
-## Baseline Model
+## Baseline Model [`⇧`](#contents)
 
 To establish a baseline for model's performance, I used a stratified dummy classifier that makes predictions based on the majority class proportion. This approach ignores the input features and predicts the majority class. The baseline accuracy is calculated as the proportion of the majority class in the dataset.
 
@@ -228,7 +231,7 @@ This indicates that a random classifier would achieve an accuracy of 67.8% by si
 This helps us understand the minimum performance we should aim to improve upon.
 
 
-## 🔧 Model Tuning Setup (Used Repeatedly)
+## 🔧 Model Tuning Setup (Used Repeatedly) [`⇧`](#contents)
 
 I used a repeated workflow throughout the project  notebook to tune and evaluate different models.
 It includes:
@@ -241,9 +244,9 @@ It includes:
 
 This setup helped me to understand the generalization and the overfitting behavior of models.
 _____________
-## **Classic ML models**
+## **Classic ML models** [`⇧`](#contents)
 - Let's start our model building with some linear models and finish with a tree-based model.
-### 1)  Logistic Regression
+### 1)  Logistic Regression [`⇧`](#contents)
 Let's first start with our good old friend, Logistic Regression!
 
 - **Untuned Model Performance:**
@@ -313,7 +316,7 @@ Notably, all features on the y-axis are prefixed with `fps-`, signifying fingerp
     - The jagged, stair-step shape suggests the model's predicted probabilities are not well-calibrated. This means model's confidence scores may not accurately reflect the true likelihood. **E.g.** When the model says "I'm 60% confident this is a positive result", in reality (when it gives that 0.6 prediction), the actual outcome is positive more or less often than 60% of the time.
 _____________________
 
-### 2) SVC (Support Vector Classifier)
+### 2) SVC (Support Vector Classifier) [`⇧`](#contents)
 
 Next, I will switch to a SVC since logistic regression didn't perform well. SVC is a bit more complex and offers non-linear decision boundaries and high-dimensional data.
 
@@ -397,7 +400,7 @@ Next, I will switch to a SVC since logistic regression didn't perform well. SVC 
     - **Practical meaning**: 81% chance model ranks a random positive instance higher than a random negative one.
 ________________________________________
 
-### 3) Random Forest_Top Performing Model🏅
+### 3) Random Forest_Top Performing Model🏅 [`⇧`](#contents)
 
 After tried both Logistic Regression and Support Vector Classifier, I turned to a tree-based ensemble model: **Random Forest**. As the saying goes, _"two heads are better than one"_—and Random Forest takes that to the next level with **n_estimators** working together.
 
@@ -440,7 +443,7 @@ Strengths of Random Forest:
     | ROC AUC        | 100.00%      | 75.00%         |
 
 
-- ### Evaluating RF Top Performing Model🏅:
+- ### Evaluating RF Top Performing Model🏅: [`⇧`](#contents)
 
     | Metric         | Test Set |
     |----------------|----------|
@@ -500,7 +503,7 @@ Sure! Here's a more professional and polished version of that section for your R
 
 ---
 
-## Saving Models
+## Saving Models [`⇧`](#contents)
 
 The project includes three trained models, saved using `joblib` for efficient reuse in future scripts or applications. These serialized models are stored in the `models/` directory:
 
@@ -513,11 +516,11 @@ These files can be loaded independently as needed for prediction or evaluation t
 
 ---
 
-## Running a Model Prediction
+## Running a Model Prediction [`⇧`](#contents)
 
 To predict whether a molecule is a skin sensitizer, use the interactive `run_model.py` script. It takes a SMILES string as input, processes it using pre-trained featurizers, and feeds the result into a Random Forest model to generate a prediction.
 
-#### Usage
+#### Usage [`⇧`](#contents)
 
 From the `scripts/` directory, run:
 
@@ -548,7 +551,7 @@ You can re-run the script and test different molecules interactively.
 
 ---
 
-## Project Structure
+## Project Structure [`⇧`](#contents)
 
 ```
 ./
@@ -582,5 +585,65 @@ You can re-run the script and test different molecules interactively.
 │   ├── run_model.py                  # Interactive prediction script
 │   └── utils.py                      # Helper utility functions
 images/                        # Image assets..
+├── requirements.txt           #
 ```
 ---
+## Installation [`⇧`](#contents)
+
+```bash
+git clone https://github.com/OmarAI2003/outreachy-contributions.git
+cd outreachy-contributions
+```
+
+<a id="environment-setup"></a>
+
+## Environment Setup [`⇧`](#contents)
+
+> [!IMPORTANT]
+>
+> <details><summary>Suggested IDE extensions</summary>
+>
+> <p>
+>
+> VS Code
+>
+> - [charliermarsh.ruff](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff)
+> - [streetsidesoftware.code-spell-checker](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker)
+>
+> </p>
+> </details>
+
+The development environment for this project can be installed via the following steps:
+
+1. [Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) the [Outreachy Contributions](https://github.com/OmarAI2003/outreachy-contributions.git), clone your fork, and configure the remotes:
+
+```bash
+# Clone your fork of the repo into the current directory.
+git clone https://github.com/OmarAI2003/outreachy-contributions.git
+# Navigate to the newly cloned directory.
+cd outreachy-contributions
+# Assign the original repo to a remote called "upstream".
+git remote add upstream https://github.com/OmarAI2003/outreachy-contributions.git
+```
+
+- Now, if you run `git remote -v` you should see two remote repositories named:
+  - `origin` (forked repository)
+  - `upstream` (Outreachy Contributions repository)
+
+2. Use [Python venv](https://docs.python.org/3/library/venv.html) to create the local development environment within your Outreachy Contributions directory:
+
+- On Unix or MacOS, run:
+
+  ```bash
+  python3 -m venv venv  # make an environment named venv
+  source venv/bin/activate # activate the environment
+  ```
+
+After activating the virtual environment, install the required dependencies and set up [pre-commit](https://pre-commit.com/) by running:
+
+```bash
+pip install --upgrade pip  # make sure that pip is at the latest version
+pip install -r requirements.txt  # install dependencies
+pre-commit install  # install pre-commit hooks
+# pre-commit run --all-files  # lint and fix common problems in the codebase
+```

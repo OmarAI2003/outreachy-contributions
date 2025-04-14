@@ -1,4 +1,4 @@
-aiobotocore==2.21.1
+aiobotocore
 aiofiles==24.1.0
 aiohappyeyeballs==2.6.1
 aiohttp==3.11.15
@@ -13,8 +13,8 @@ attrs==25.3.0
 beautifulsoup4==4.13.3
 biopython==1.85
 biothings_client==0.4.1
-boto3==1.37.25
-botocore==1.37.25
+boto3
+botocore
 cellxgene-census==1.16.2
 certifi==2025.1.31
 charset-normalizer==3.4.1
@@ -28,7 +28,6 @@ decorator==5.2.1
 docker==7.1.0
 dockerfile-parse==2.0.1
 docopt==0.6.2
--e git+https://github.com/OmarAI2003/outreachy-contributions.git@b7cbf9eb9963623a8a06071923fb63675c296765#egg=dummy_pkg
 emoji==2.14.1
 ersilia==0.1.43
 et_xmlfile==2.0.0
@@ -102,7 +101,7 @@ redis==5.2.1
 requests==2.32.3
 ruff==0.11.2
 s3fs==2025.3.2
-s3transfer==0.11.4
+s3transfer
 scanpy==1.11.1
 scikit-learn==1.2.2
 scipy==1.15.2
@@ -132,4 +131,3 @@ widgetsnbextension==4.0.13
 wrapt==1.17.2
 yapf==0.43.0
 yarl==1.18.3
--e git+https://github.com/OmarAI2003/outreachy-contributions.git@b7cbf9eb9963623a8a06071923fb63675c296765#egg=your_project_name

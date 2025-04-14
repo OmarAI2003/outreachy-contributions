@@ -510,8 +510,6 @@ The project includes three trained models, saved using `joblib` for efficient re
 
 These files can be loaded independently as needed for prediction or evaluation tasks.
 
----
-Got it! Here's a more polished and interactive version of your README section that explains the process clearly and professionally, with an example:
 
 ---
 

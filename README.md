@@ -473,7 +473,7 @@ Strengths of Random Forest:
     - **High recall for non-sensitizers**: Captured **10 true negatives** (class `0`), with only **4 false negatives**, aligning with the high recall (84%) observed earlier.
     - **Precision trade-off**: While recall is robust, the **6 false positives** (class `0` predicted as `1`) explain the precision score of 77.
 
-- **ROC Curve Insights**
+- **ROC Curve Insights:**
 
     ![Random Forest ROC Curve](images/Rf_ROC.png)
 

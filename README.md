@@ -136,9 +136,9 @@ Histogram with summry stats to show length distribution:
 
 * **Typical Molecule Size:** The median length is 22 characters, and the histogram/KDE plot peaks between approximately 10 and 25 characters. This suggests significant portion is of relatively small molecules. 50% of the molecules have SMILES lengths between ~16 and 30 characters (IQR).
 * **Variability and Skewness:** The distribution is **right-skewed**, as indicated by the mean (25.4) > than the median (22) and the long tail extending to higher lengths. This skewness highlights the presence of some large complex molecules.
-* **Range:**: 4 To 98 is a wide range of lengths. Big Standard deviation (15.9 relative to the mean), shows great diversity in molecular size/complexity.
+* **Range:**: 4 to 98 is a wide range of lengths. Big Standard deviation (15.9 relative to the mean), shows great diversity in molecular size/complexity.
 
-**Key Finding:** Data has lots of small-to-medium-sized molecules, but also includes a number of larger, maybe more complex structures. our Data is considerd hetrognieous.
+**Key Finding:** Data has lots of small-to-medium-sized molecules but also includes a number of larger, maybe more complex structures. our Data is considerd hetrognieous.
 _________________________________________________________
 
 ### Featurizer Selection
@@ -149,30 +149,30 @@ Starting my search journey,
 I initially considered `[eos4avb](https://github.com/ersilia-os/eos4avb)` from Ersilia's hub, which claims readiness for **drug toxicity** prediction, but decided not to go with for these:
 
 - **Different Endpoint**: Designed for broad bioactivity prediction for multiple domains, unlike my nuanced immune triggered skin sensitization.
-- **Model Input Data**: Uses molecule images, may losing chemical interactions and details essential for predicting protein-chemical binding and inflammatory responses.
-- **Dataset Limitations**: My small dataset requires precise feature extractor, while this general image appraoch may not capture raliable skin perdictions.
+- **Model Input Data**: It uses molecule images but may lose chemical interactions and details essential for predicting protein-chemical binding and inflammatory responses.
+- **Dataset Limitations**: My small dataset requires precise feature extractor, while this general image approach may not capture reliable skin perdictions.
 
 After a review of available featurizers, considered task requirements (predicting immune-triggered skin sensitization on a small, heterogeneous data).I identified Featurizers that aren't suitable for this Task like reaction transformers, format converters, text generators, translators and image-based models.
 
 
 **I narrowed down to these 2 models:**
 
-Those two selected featurizers work in togeather to surpass challenges revealed by EDA on our small dataset like class imbalance, small sample size, and heterogeneity in molecule sizes.
+Those two selected featureizers work together to surpass challenges revealed by EDA on our small dataset like class imbalance, small sample size, and heterogeneity in molecule sizes.
 
-1) **[Compound Embeddings](https://www.nature.com/articles/s41467-023-41512-2)** : use transfer learning that's good for my small dataset to generate 1024D vectors that integrate both physicochemical and bioactivity data. This model got knowledge from millions of compounds trained on [FS-Mol](https://www.microsoft.com/en-us/research/publication/fs-mol-a-few-shot-learning-dataset-of-molecules/?utm_source=chatgpt.com) and [ChEMBL](https://www.ebi.ac.uk/chembl/?utm_source=chatgpt.com) datasets mitigating my small dataset nad capturing complex relations like protein binding and immune response that causes skin sensitization. This featuriser outputs 1024 float features.
+1) **[Compound Embeddings](https://www.nature.com/articles/s41467-023-41512-2)**: use transfer learning that's good for my small dataset to generate 1024D vectors that integrate both physicochemical and bioactivity data. This model got knowledge from millions of compounds trained on [FS-Mol](https://www.microsoft.com/en-us/research/publication/fs-mol-a-few-shot-learning-dataset-of-molecules/?utm_source=chatgpt.com) and [ChEMBL](https://www.ebi.ac.uk/chembl/?utm_source=chatgpt.com) datasets, mitigating my small dataset and capturing complex relations like protein binding and immune response that causes skin sensitization. This featuriser outputs 1024 float features.
 
-2) **[Morgan Fingerprints](https://research.ibm.com/publications/morgangen-generative-modeling-of-smiles-using-morgan-fingerprint-features?utm_source=chatgpt.com)**: Most widely used molecular representation and outputs a 2048-dimensional binary vector, capturing structural features around atoms. This is important in skin reactions prediction, where specific reactive locations determine the outcome. it's already validated against so many toxicity studies [[comparision between molecular fingerprints and other descriptors ](https://pubs.acs.org/doi/10.1021/acs.chemrestox.0c00303?utm_source=chatgpt.com)] making it reliable basline. the binary representation of its 2048 features assures fast computation and easy integration to ML workflows. Morgan generates 2048 dimensions of binary data.
+2) **[Morgan Fingerprints](https://research.ibm.com/publications/morgangen-generative-modeling-of-smiles-using-morgan-fingerprint-features?utm_source=chatgpt.com)**: Most widely used molecular representation and outputs a 2048-dimensional binary vector, capturing structural features around atoms. This is important in skin reactions prediction, where specific reactive locations determine the outcome. It's already validated against so many toxicity studies [[comparision between molecular fingerprints and other descriptors ](https://pubs.acs.org/doi/10.1021/acs.chemrestox.0c00303?utm_source=chatgpt.com)] making it reliable basline. the binary representation of its 2048 features assures fast computation and easy integration to ML workflows. Morgan generates 2048 dimensions of binary data.
 
 
-Together, these approaches offer a balanced view: the embeddings bring in a holistic, data-enriched perspective while Morgan Fingerprints guarantee the capture of fine-grained chemical details. This strategy is designed to achive model generalization accuracy, addressing the limitations and biases identified during EDA.
+Together, these approaches offer a balanced view: the embeddings bring in a holistic, data-enriched perspective while Morgan Fingerprints guarantee the capture of fine-grained chemical details. This strategy is designed to achieve model generalization accuracy, addressing the limitations and biases identified during EDA.
 ____________
 ### Featurisation Instructions:
 
-The [`data_loader_and_featurizer.py`](scripts/data_loader_and_featurizer.py) takes your chemical data, split it into meaningful subsets model-ready, and generate featurised[`data files`](data/) to capture molecular information. Here’s how it works:
+The [`data_loader_and_featurizer.py`](scripts/data_loader_and_featurizer.py) takes your chemical data, splits it into meaningful subsets model-ready, and generates featurised[`data files`](data/) to capture molecular information. Here’s how it works:
 
 - **Data Preparation** – It obtains Skin Reaction dataset and divides it into three parts: training, validation, and test splits. These subsets are saved as separate files, each contains both feature data (the unique compound identifiers) and their labels.
 
-- **Feature Generation** – Once data is split, the pipeline runs a featurisation step. where, a choosed fetched model (e.g:Morgan fingerprints based) processes the obtained input data files and set output file names.
+- **Feature Generation** – Once data is split, the pipeline runs a featurisation step. where a chosen fetched model (e.g:Morgan fingerprints based) processes the obtained input data files and set output file names.
 
 - Output for Analysis – After processing, outputed new versions of dataset split files  are stored in the same [`data directory`](data/) for easy access.
 
@@ -183,12 +183,12 @@ Generally, I didn't do any data wrangling because, clearly, the data was already
 
 I experimented with various data scalers (`StandardScaler`, `RobustScaler`, `MinMaxScaler`) on the continuous compound embedding features to improve model performance. However, these transformations led to adverse outcomes, so I proceeded without scaling.
 
-I also refrained from using under/over sampling techniques as it will exclude some of our data points that of course could convey some valuable informating to our models and decided to instad do hyperparameter tuning techniques like GridSearchCV to tune model parameters and improve generalization.
+I also refrained from using under/over sampling techniques as it will exclude some of our data points that of course could convey some valuable informating to our models and decided to instead do hyperparameter tuning techniques like GridSearchCV to tune model parameters and improve generalization.
 
 # Data Modeling
-- I've modeled my data with **four** models (Actully three):
+- I've modeled my data with **four** models (actually three):
 
-    1. A **Baseline Model** => Dummy Classifier that make perdictions based on class distribution.
+    1. A **Baseline Model** => Dummy Classifier that makes predictions based on class distribution.
     **Classical ML Models**:
     2. **Logistic Regression** (baseline, linear and interpretable model)
     3. **Support Vector Machine (SVC)** (a bit non-linear and effective for high-dimensional spaces)
@@ -266,7 +266,7 @@ Let's first start with our good old friend, Logistic Regression!
     - `penalty = "elasticnet"` with `l1_ratio = 0.2`
     - `solver = "saga"` for compatibility with elastic net
     - `warm_start = True` for faster convergence
-    - `max_iter = 800` to limit iterations and reducing the severe overfitting on training data
+    - `max_iter = 800` to limit iterations and reduce the severe overfitting on training data
 
     | Metric           | Training Set | Validation Set |
     |------------------|--------------|----------------|
@@ -291,12 +291,12 @@ Tuned logistic regression maintains 66% accuracy with 75% ROC_AUC, showing consi
 
     ![Logistic Regression Feature Importance](images/lr_feat_imp.png)
 
-The chart shows top features logistic model's decisions.
+The chart shows top features of the logistic model's decisions.
 
 - **Green bars** (positive coefficients) associated with predicting *non-sensitizers*.
 - **Red bars** (negative coefficients) associated with predicting *sensitizer*.
 
-Notably, all features on the y-axis are prefixed with `fps-`, signifying fingerprint-based features. This suggests that our model sees Morgan fingerprint featurizer's data is more prominent in model performance compared to compound embeddings.
+Notably, all features on the y-axis are prefixed with `fps-`, signifying fingerprint-based features. This suggests that our model sees Morgan fingerprint featurizer's data as more prominent in model performance than compound embeddings.
 
 - **🧮 Confusion Matrix:**
 
@@ -310,12 +310,12 @@ Notably, all features on the y-axis are prefixed with `fps-`, signifying fingerp
 
     - The curve plots the true positive Rate `(TPR)` against the False Positive Rate `(FPR)`,  shows moderate model performance with an AUC of 0.75, indicating it's better than random gussing but could be improved.
 
-    - The jagged, stair-step shape suggests the model's predicted probabilities are not well-calibrated.This means model's confidence scores may not accurately reflect the true likelihood. **E.g.** When the model says "I'm 60% confident this is a positive result", in reality (when it gives that 0.6 prediction), the actual outcome is positive more or less often than 60% of the time.
+    - The jagged, stair-step shape suggests the model's predicted probabilities are not well-calibrated. This means model's confidence scores may not accurately reflect the true likelihood. **E.g.** When the model says "I'm 60% confident this is a positive result", in reality (when it gives that 0.6 prediction), the actual outcome is positive more or less often than 60% of the time.
 _____________________
 
 ### 2) SVC (Support Vector Classifier)
 
-Next, I will switch to a SVC since logistic regression didn't perform well. SVC is a bit more complex, offers non-linear decision boundaries and high-dimensional data.
+Next, I will switch to a SVC since logistic regression didn't perform well. SVC is a bit more complex and offers non-linear decision boundaries and high-dimensional data.
 
 - **Untuned Model Performance:**
     First, an untuned `SVC` model to set a performance floor and measure how much later tuning improves results.
@@ -363,7 +363,7 @@ Next, I will switch to a SVC since logistic regression didn't perform well. SVC 
     - **F1 Score**: 80.00%
     Harmonic mean of precision and recall. A balanced metric when both false positives and false negatives matter.
     - **ROC AUC**: 80.75%
-    Evaluates model's ability to distinguish between classes across all thresholds. AUC close to 1.0 indicates strong separability.
+    Evaluates model's ability to distinguish between classes across all thresholds. An AUC close to 1.0 indicates strong separability.
 
 - **Feature Importance**
 
@@ -483,9 +483,9 @@ Strengths of Random Forest:
 
     - The model **leans slightly toward recall**, meaning it's favoring capturing as many positives as possible, which is expected given the imbalanced nature of our data.
 
-    - Given the **balance between precision and recall**, and a solid ROC AUC, the Random Forest model demonstrates **strong and balanced performance**.
+    - Given the **balance between precision and recall** and a solid ROC AUC, the Random Forest model demonstrates **strong and balanced performance**.
 
-    - **ROC curve shape** arcs toward the top-left corner, reinforces that the classifier is **making well-calibrated decisions across thresholds**.
+    - **ROC curve shape** arcs toward the top-left corner, reinforcing that the classifier is **making well-calibrated decisions across thresholds**.
 
 
 - **Feature Importance:**

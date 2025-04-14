@@ -475,7 +475,7 @@ Strengths of Random Forest:
 
 - **ROC Curve Insights:**
 
-    ![Random Forest ROC Curve](images/Rf_ROC.png)
+    ![Random Forest ROC Curve](images/RF_ROC.png)
 
     - **ROC (Receiver Operating Characteristic)** visualizes the performance of RF classifier by plotting **True Positive Rate (Recall)** against the **False Positive Rate** at various threshold settings.
 

@@ -444,8 +444,9 @@ Strengths of Random Forest:
     | F1 Score       | 99.78%       | 75.00%         |
     | ROC AUC        | 100.00%      | 75.00%         |
 
+    <h2 id="evaluating-rf-top-performing-model">Evaluating RF Top Performing Model <a href="#contents">⇧</a></h2>
 
-<h2 id="evaluating-rf-top-performing-model">Evaluating RF Top Performing Model <a href="#contents">⇧</a></h2>
+
 
     | Metric         | Test Set |
     |----------------|----------|
@@ -550,7 +551,7 @@ After processing, the script prints a clear prediction:
 🟢 The molecule: C=C(C=CCC(C)C)CC is predicted to **not be a skin sensitizer**.
 ```
 
-You can re-run the script and test different molecules interactively.
+Script can be re-run and test different molecules interactively.
 
 ---
 

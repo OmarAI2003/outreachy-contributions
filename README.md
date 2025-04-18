@@ -3,9 +3,8 @@
 - [Installation](#installation)
 - [Environment Setup](#environment-setup)
 - [Dataset](#dataset-chemically-induced-skin-reactions)
-- [Exploratory Data Analysis](#exploratory-data-analysis-eda)
-- [Selecting Featurisers](#featurizer-selection)
-- [Featurisation Instructions](#featurisation-instructions)
+- [Exploratory Data Analysis](#exploratory-data-analysis)
+- [Featurization](#featurizer-selection)
 - [Data Modeling](#data-modeling)
 - [Evaluating RF Top Performing Model](#evaluating-rf-top-performing-model) 🏅
 - [Saving Models](#saving-models)
@@ -50,7 +49,7 @@ I used 80/10/10 split to allocate more data for the training set thus giving eno
 I chosed this dataset because it connects to everyday life. Think of reactions to cosmetics, detergents, or skincare products. Skin issues are universal. This dataset helps predict chemical safety without relying heavily on animal testing, aligning with my interest in ethical alternatives. It’s also a classifier (safe vs. unsafe) and the models built from it could be easier to interpret. The size dataset is manageable for my computational setup. By working on this, I’m tackling a real-world problem that blends health, consumer products, and sustainability which feels both meaningful.
 __________________
 
-## Exploratory Data Analysis (EDA) [`⇧`](#contents)
+<h2 id="exploratory-data-analysis">Exploratory Data Analysis <a href="#contents">⇧</a></h2>
 
 Although direct analysis on raw SMILES strings is hard. I did some EDA to prepare for featurization and to identify issues or biases in the data that could impact model performance.
 
@@ -145,6 +144,7 @@ Histogram with summry stats to show length distribution:
 _________________________________________________________
 
 ### Featurizer Selection [`⇧`](#contents)
+<h2 id="featurizer-selection">Featurization <a href="#contents">⇧</a></h2>
 
 
 Starting my search journey,
@@ -189,6 +189,8 @@ I experimented with various data scalers (`StandardScaler`, `RobustScaler`, `Min
 I also refrained from using under/over sampling techniques as it will exclude some of our data points that of course could convey some valuable informating to our models and decided to instead do hyperparameter tuning techniques like GridSearchCV to tune model parameters and improve generalization.
 
 # Data Modeling [`⇧`](#contents)
+<h2 id="data-modeling">Data Modelinig <a href="#contents">⇧</a></h2>
+
 - I've modeled my data with **four** models (actually three):
 
     1. A **Baseline Model** => Dummy Classifier that makes predictions based on class distribution.
@@ -209,7 +211,7 @@ I also refrained from using under/over sampling techniques as it will exclude so
     3) **Recall** (minimizing false negatives)
     4) **F1-Score** (harmonic mean of precision and recall)
     5) **ROC-AUC** (model’s ranking capability across thresholds)
-## Baseline Model [`⇧`](#contents)
+### Baseline Model [`⇧`](#contents)
 
 To establish a baseline for model's performance, I used a stratified dummy classifier that makes predictions based on the majority class proportion. This approach ignores the input features and predicts the majority class. The baseline accuracy is calculated as the proportion of the majority class in the dataset.
 
@@ -443,7 +445,7 @@ Strengths of Random Forest:
     | ROC AUC        | 100.00%      | 75.00%         |
 
 
-- ### Evaluating RF Top Performing Model🏅: [`⇧`](#contents)
+<h2 id="evaluating-rf-top-performing-model">Evaluating RF Top Performing Model <a href="#contents">⇧</a></h2>
 
     | Metric         | Test Set |
     |----------------|----------|
@@ -504,6 +506,7 @@ Sure! Here's a more professional and polished version of that section for your R
 ---
 
 ## Saving Models [`⇧`](#contents)
+<h2 id="saving-models">Saving Models <a href="#contents">⇧</a></h2>
 
 The project includes three trained models, saved using `joblib` for efficient reuse in future scripts or applications. These serialized models are stored in the `models/` directory:
 
@@ -516,7 +519,7 @@ These files can be loaded independently as needed for prediction or evaluation t
 
 ---
 
-## Running a Model Prediction [`⇧`](#contents)
+<h2 id="running-a-model-prediction">Running a Model Prediction <a href="#contents">⇧</a></h2>
 
 To predict whether a molecule is a skin sensitizer, use the interactive `run_model.py` script. It takes a SMILES string as input, processes it using pre-trained featurizers, and feeds the result into a Random Forest model to generate a prediction.
 
@@ -551,7 +554,7 @@ You can re-run the script and test different molecules interactively.
 
 ---
 
-## Project Structure [`⇧`](#contents)
+<h2 id="project-structure">Project Structure <a href="#contents">⇧</a></h2>
 
 ```
 ./
@@ -588,7 +591,7 @@ images/                        # Image assets..
 ├── requirements.txt           #
 ```
 ---
-## Installation [`⇧`](#contents)
+<h2 id="installation">Installation <a href="#contents">⇧</a></h2>
 
 ```bash
 git clone https://github.com/OmarAI2003/outreachy-contributions.git
@@ -597,7 +600,7 @@ cd outreachy-contributions
 
 <a id="environment-setup"></a>
 
-## Environment Setup [`⇧`](#contents)
+<h2 id="environment-setup">Environment Setup <a href="#contents">⇧</a></h2>
 
 > [!IMPORTANT]
 >
